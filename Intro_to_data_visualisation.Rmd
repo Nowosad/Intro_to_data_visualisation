@@ -280,3 +280,10 @@ Odnośniki:
 
 - [Should You Ever Use a Pie Chart?](http://priceonomics.com/should-you-ever-use-a-pie-chart/)
 - [The 60 Silliest Pie Charts on the Internet](http://twentytwowords.com/ultimate-list-of-funny-pie-charts)
+
+--- 
+
+Resources:
+
+- http://varianceexplained.org/RData/lessons/lesson2/
+- http://www.njtierney.com/Resources/
