@@ -18,6 +18,8 @@ editor_options:
 options(htmltools.dir.version = FALSE)
 ```
 
+<!--
+
 # Wizualizacja statystyczna
 
 ## Wykresy eksploracyjne
@@ -31,15 +33,19 @@ options(htmltools.dir.version = FALSE)
 - ich stworzenie wymaga czasu
 - ważny jest dobór podpisów, kolorów, etc.
 
----
-# Wykresy a R
+-->
 
-## Wykresy w R
-- Istnieje wiele różnych możliwości tworzenia wykresów w R
-- Najczęściej używane to **podstawowe grafiki**, pakiet **lattice** oraz pakiet **ggplot2**
+## Data visualisation in R
+
+- R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are the most popular ones
 
 ---
-## ggplot2 
+## **ggplot2** - basic informations
+
+- **ggplot2** is an implementation of the grammar of graphics (["Grammar of Graphics"](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448) book written by Leland Wilkinson)
+- data frames are an input data (most of the times)
+- the **ggplot2** package has two functions for plot creation - `qplot()` and `ggplot()`
+- **ggplot2** documentation is available at http://docs.ggplot2.org
 
 ```{r, eval=FALSE}
 install.packages("ggplot2")
@@ -50,38 +56,31 @@ library('ggplot2')
 ```
 
 ---
-## ggplot2 - pierwszy wykres
+## **ggplot2** - the first plot
 
-```{r, fig.align='center',fig.height=4}
-df <- data.frame(zmiennaA = c(1:10), zmiennaB = seq(22, 4, by= -2))
-ggplot(data=df, aes(x=zmiennaA, y=zmiennaB)) + geom_point()
+```{r, fig.align='center', fig.height=5}
+df <- data.frame(A = c(1:10), B = seq(22, 4, by= -2))
+ggplot(data = df, aes(x = A, y = B)) + geom_point()
 ```
 
 ---
-## ggplot2 - podstawowe informacje
+## ggplot2 - basic dictionary
 
-- pakiet jest implementacją założeń zawartych w książce "Grammar of Graphics" Lelanda Wilkinsona
-- data.frame jest zazwyczaj wymaganymi danymi wejściowymi
-- istnieją dwie komendy pozwalające na tworzenie wykresów - *qplot* oraz *ggplot*
-- pełna dokumentacja znajduje się na stronie - http://docs.ggplot2.org
-
----
-## ggplot2 - podstawowe słownictwo
-
-- **geom** - oznacza typ wykresu (np. "histogram", "boxplot", "point", etc.)
-- aesthetics (**aes**) - oznacza kształt, kolor, wielkość, etc.
-- faceting (**facet**) - oznacza wykresy dla podzbiorów
+- `geom` - type of a plot ("histogram", "boxplot", "point", etc.)
+- aesthetics (`aes`) - visual properties of geoms, such as color, size, shape, ...
+- faceting (`facet`) - panels with a different subset of the data 
 
 ---
-## Zbiór danych
+## Dataset
 
 ```{r, eval=FALSE}
-install.packages('devtools')
-devtools::install_github("jennybc/gapminder")
+# install.packages('devtools')
+# devtools::install_github("jennybc/gapminder")
+install.packages('gapminder')
 library(gapminder)
 ```
 
-lub
+or
 
 ```{r}
 gapminder <- readRDS('data/gapminder.rds')
