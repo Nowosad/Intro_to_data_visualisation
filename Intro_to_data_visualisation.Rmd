@@ -15,12 +15,12 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+options(htmltools.dir.version = FALSE, scipen = 99*99)
 ```
 
 ## Data visualisation in R
 
-- R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are the most popular ones
+- R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are among the most popular ones
 
 ---
 ## **ggplot2** - basic information
@@ -41,7 +41,7 @@ library('ggplot2')
 ---
 ## **ggplot2** - the first plot
 
-```{r, fig.align='center', fig.height=5}
+```{r, fig.align='center', fig.height=6}
 df <- data.frame(A = c(1:10), B = seq(22, 4, by= -2))
 ggplot(data = df, aes(x = A, y = B)) + geom_point()
 ```
@@ -82,7 +82,7 @@ gapminder2007 <- subset(gapminder, year==2007)
 ---
 ## Histogram
 
-```{r, tidy=FALSE, message=FALSE, out.width =  '400px'}
+```{r, tidy=FALSE, message=FALSE, fig.align='center', fig.height=6}
 ggplot(data=gapminder2007, aes(x=gdpPercap)) + 
         geom_histogram()
 ```
@@ -130,7 +130,7 @@ ggplot(data=gapminder2007_2, aes(x=continent, y=number)) + geom_col()
 
 ---
 ## Line plot
-```{r, fig.align='center',fig.height=4}
+```{r, fig.align='center',fig.height=6}
 gapminder2 <- gapminder %>% group_by(year) %>% summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE))
 ggplot(data=gapminder2, aes(x=year, y=mean.lifeExp)) + geom_line()
 ```
@@ -138,14 +138,14 @@ ggplot(data=gapminder2, aes(x=year, y=mean.lifeExp)) + geom_line()
 ---
 ## Scatter plot
 
-```{r, fig.align='center',fig.height=4}
+```{r, fig.align='center',fig.height=6}
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp)) + geom_point()
 ```
 
 ---
 ## Box plot
 
-```{r, fig.height=4}
+```{r, fig.align='center',fig.height=6}
 ggplot(data=gapminder2007, aes(x=continent, y=lifeExp)) +
         geom_boxplot()
 ```
@@ -153,7 +153,7 @@ ggplot(data=gapminder2007, aes(x=continent, y=lifeExp)) +
 ---
 ## Aesthetic attributes for quantitative variables (1)
 
-```{r, fig.align='center',fig.height=4.5}
+```{r, fig.align='center',fig.height=6}
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) +
         geom_point()
 ```
@@ -161,7 +161,7 @@ ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) +
 ---
 ## Aesthetic attributes for quantitative variables (2)
 
-```{r, fig.align='center',fig.height=4.5}
+```{r, fig.align='center',fig.height=6}
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, size=pop)) +
         geom_point()
 ```
@@ -169,7 +169,7 @@ ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, size=pop)) +
 ---
 ## Aesthetic attributes for qualitative variables (1)
 
-```{r, fig.align='center',fig.height=4.5}
+```{r, fig.align='center',fig.height=6}
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=continent)) +
         geom_point()
 ```
@@ -177,34 +177,47 @@ ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=continent)) +
 ---
 ## Aesthetic attributes for qualitative variables (2)
 
-```{r, fig.align='center',fig.height=4.5}
+```{r, fig.align='center',fig.height=6}
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, shape=continent)) + 
         geom_point() + scale_shape(solid = FALSE)
 ```
 
 ---
+## Scales 
+
+```{r, fig.align='center', fig.height=6}
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) +
+        geom_point()+ 
+        scale_colour_gradientn(colours=rainbow(5))
+```
+
+---
+## Data transformations
+
+```{r, fig.align='center', fig.height=6}
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=log10(pop))) +
+        geom_point()
+```
+
+---
 ## Facets
 
-- TWO TYPES
+- Two functions, `facet_grid()` and `facet_wrap()` can be used to plot the subsets of data together
 
-```{r, fig.align='center',fig.height=4.5}
+```{r, fig.align='center',fig.height=5, message=FALSE}
 ggplot(data=gapminder2007, aes(x=lifeExp)) + 
         geom_histogram() + 
         facet_wrap(~continent)
 ```
 
 ---
-## Transformations
+## Plot customizing - labs
 
-
-
----
-## Plot customizing
-
-```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=4}
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=5}
 p <- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
-p <- p + ggtitle('Histogram') + labs(fill = "Continent: ")
+        geom_histogram()
+p <- p + labs(x='Life expectancy', y=NULL,
+              title='Histogram', fill='Continent: ')
 p
 ```
 
@@ -221,8 +234,10 @@ p
 
 ```{r, tidy=FALSE, message=FALSE, eval=FALSE}
 p <- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
-p <- p + ggtitle('Histogram') + labs(fill = "Continent: ") + theme_bw()
+        geom_histogram() +
+        labs(x='Life expectancy', y=NULL,
+              title='Histogram', fill='Continent: ') +
+        theme_bw()
 ```
 
 ```{r, tidy=FALSE, message=FALSE, eval=FALSE}
@@ -234,29 +249,24 @@ ggsave(filename = "Plot.png", plot = p, dpi = 300)
 ```
 
 ---
+## That's not all (folks)
 
-<iframe src="http://shiny.stat.ubc.ca/r-graph-catalog/"></iframe>
-
----
-## What's next?
-
-- Kolejne typy wykresów (inne *geomy*):
-   - 
-   - 
-   - 
-   - ... and many more
-- Additional packages
-- Przedstawiane danych przestrzennych
-- ....
-
-<!-- - Przekształanie danych na wykresach (np. *scale_x_log10*) -->
-<!-- - Multiwykresy (*facet_grid*, *facet_wrap*, itd.) -->
-<!-- - Modyfikacja wyglądu (motywów - *theme*) -->
+- More geoms:
+   - `geom_density()`
+   - `geom_jitter()`
+   - `geom_text()`
+   - ... 
+- Axes and legends customizing
+- Additional packages (**ggplot2** extensions) - http://www.ggplot2-exts.org/
+- Spatial data visualisation
+- ... and many more
 
 ---
 ## What's next?
 
 - Interactive plots (plotly, dygraph, ...)
+
+<!--https://github.com/bhaskarvk/widgetframe-->
 
 --- 
 
@@ -265,3 +275,6 @@ Resources:
 - http://varianceexplained.org/RData/lessons/lesson2/
 - http://www.njtierney.com/Resources/
 - http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
+- http://www.cookbook-r.com/Graphs/
+- http://shiny.stat.ubc.ca/r-graph-catalog/
+- https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
