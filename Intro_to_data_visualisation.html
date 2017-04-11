@@ -18,29 +18,12 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;!--
-
-# Wizualizacja statystyczna
-
-## Wykresy eksploracyjne
-
-- służą głównie dla ich twórcy
-- kluczową ich cechą jest możliwość iteracji
-
-## Wykresy komunikacyjne
-
-- służą głównie przekazaniu wiedzy
-- ich stworzenie wymaga czasu
-- ważny jest dobór podpisów, kolorów, etc.
-
---&gt;
-
 ## Data visualisation in R
 
 - R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are the most popular ones
 
 ---
-## **ggplot2** - basic informations
+## **ggplot2** - basic information
 
 - **ggplot2** is an implementation of the grammar of graphics (["Grammar of Graphics"](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448) book written by Leland Wilkinson)
 - data frames are an input data (most of the times)
@@ -107,15 +90,6 @@ gapminder2007 &lt;- subset(gapminder, year==2007)
 ---
 ## Histogram
 
-.pull-left[
-- stworzony przez Karla Pearsona
-- jest graficzną reprezentacją rozkładu &lt;br&gt; danych
-- wartości danych są łączone w przedziały (na osi poziomej) a na osi pionowej jest ukazana liczba punktów (obserwacji) w każdym przedziale
-- różny dobór przedziałów może dawać inną informację
-- w pakiecie ggplot2, przedział to domyślnie zakres/30
-]
-
-.pull-right[
 
 ```r
 ggplot(data=gapminder2007, aes(x=gdpPercap)) + 
@@ -123,7 +97,6 @@ ggplot(data=gapminder2007, aes(x=gdpPercap)) +
 ```
 
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-7-1.png" width="400px" /&gt;
-]
 
 ---
 ## Histogram 
@@ -149,7 +122,12 @@ ggplot(data=gapminder2007, aes(x=gdpPercap)) +
 ]
 
 ---
-## Wykres słupkowy
+## Bar plot
+
+- There are two types of bar plots in **ggplot2**:
+    - `geom_bar()` makes the height of the bar proportional to the number of cases in each group
+    - `geom_col()` makes the height of the bars to represent values in the data
+
 
 ```r
 ggplot(data=gapminder2007, aes(x=continent)) + geom_bar()
@@ -157,175 +135,188 @@ ggplot(data=gapminder2007, aes(x=continent)) + geom_bar()
 
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
-
 ---
-## Wykres liniowy 
+## Bar plot
+
+- There are two types of bar plots in **ggplot2**:
+    - `geom_bar()` makes the height of the bar proportional to the number of cases in each group
+    - `geom_col()` makes the height of the bars to represent values in the data
+
 
 ```r
 library('dplyr')
-gapminder2 &lt;- gapminder %&gt;% group_by(year) %&gt;% summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE))
-ggplot(data=gapminder2, aes(x=year, y=mean.lifeExp)) + geom_line()
+gapminder2007_2 &lt;- gapminder2007 %&gt;% group_by(continent) %&gt;% summarise(number=n())
+ggplot(data=gapminder2007_2, aes(x=continent, y=number)) + geom_col()
 ```
 
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Wykres rozrzutu
+## Line plot
+
+```r
+gapminder2 &lt;- gapminder %&gt;% group_by(year) %&gt;% summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE))
+ggplot(data=gapminder2, aes(x=year, y=mean.lifeExp)) + geom_line()
+```
+
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+## Scatter plot
 
 
 ```r
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp)) + geom_point()
 ```
 
-&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Wykres pudełkowy 
+## Box plot
 
-.pull-left[
-- obrazuje pięc podstawowych &lt;br&gt; statystyk opisowych oraz wartości odstające
-- pudełko to zakres międzykwantylowy
-- linie oznaczają najbardziej ekstremalne wartości, ale nie odstające. Górna to 1,5\*IQR ponad krawędź pudełka, dolna to 1,5\*IQR poniżej wartości dolnej krawędzi pudełka
-- linia środkowa to mediana
-]
-
-.pull-right[
 
 ```r
 ggplot(data=gapminder2007, aes(x=continent, y=lifeExp)) +
         geom_boxplot()
 ```
 
-![](Intro_to_data_visualisation_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
-]
+![](Intro_to_data_visualisation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
 
 ---
-## Wykresy, a dane ilościowe i jakościowe
-
-- kolory
-- kształty
-- wielkości
-
----
-## Wykresy, a dane ilościowe (1)
+## Aesthetic attributes for quantitative variables (1)
 
 
 ```r
-ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) + geom_point()
-```
-
-&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
-
----
-## Wykresy, a dane ilościowe (2)
-
-
-```r
-ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, size=pop)) + geom_point()
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) +
+        geom_point()
 ```
 
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Wykresy, a dane jakościowe (1)
+## Aesthetic attributes for quantitative variables (2)
 
 
 ```r
-ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=continent)) + geom_point()
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, size=pop)) +
+        geom_point()
 ```
 
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Wykresy, a dane jakościowe (2)
+## Aesthetic attributes for qualitative variables (1)
 
 
 ```r
-ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, shape=continent)) + 
-        geom_point()  + scale_shape(solid = FALSE)
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=continent)) +
+        geom_point()
 ```
 
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Modyfikacja wykresów
+## Aesthetic attributes for qualitative variables (2)
 
 
 ```r
-p &lt;- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram() + xlab('Oczekiwana dalsza długość trwania życia') + ylab(NULL)
-p &lt;- p + ggtitle('Histogram') + labs(fill = "Kontynent")
-p
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, shape=continent)) + 
+        geom_point() + scale_shape(solid = FALSE)
 ```
 
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Zapisywanie wykresów
+## Facets
+
+- TWO TYPES
 
 
 ```r
-p &lt;- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) + 
-        geom_histogram() + xlab('Oczekiwana dalsza długość trwania życia') + ylab(NULL)
-p &lt;- p + ggtitle('Histogram') + labs(fill = "Kontynent")
+ggplot(data=gapminder2007, aes(x=lifeExp)) + 
+        geom_histogram() + 
+        facet_wrap(~continent)
 ```
 
-
-```r
-ggsave(filename = "Wykres.pdf", plot = p)
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-
-```r
-ggsave(filename = "Wykres.png", plot = p, dpi = 300)
-```
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Inne
+## Transformations
 
-- Kolejne typy wykresów (inne *geomy*)
-- Przekształanie danych na wykresach (np. *scale_x_log10*)
-- Multiwykresy (*facet_grid*, *facet_wrap*, itd.)
-- Modyfikacja wyglądu (motywów - *theme*)
-- Przedstawiane danych przestrzennych
-- Wiele innych...
+
+
+---
+## Plot customizing
+
+
+```r
+p &lt;- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
+        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
+p &lt;- p + ggtitle('Histogram') + labs(fill = "Continent: ")
+p
+```
+
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+## Plot customizing - themes
+
+
+```r
+p &lt;- p + theme_bw()
+p
+```
+
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+## Saving plots
+
+
+```r
+p &lt;- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
+        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
+p &lt;- p + ggtitle('Histogram') + labs(fill = "Continent: ") + theme_bw()
+```
+
+
+```r
+ggsave(filename = "Plot.pdf", plot = p)
+```
+
+
+```r
+ggsave(filename = "Plot.png", plot = p, dpi = 300)
+```
 
 ---
 
 &lt;iframe src="http://shiny.stat.ubc.ca/r-graph-catalog/"&gt;&lt;/iframe&gt;
 
 ---
-## Kilka porad
+## What's next?
 
-- nie redukuj!
-- nie stosuj wykresów kołowych
-- nie stosuj wykresów 3D
-- uważaj na osie
-- nie stosuj dwóch osi
+- Kolejne typy wykresów (inne *geomy*):
+   - 
+   - 
+   - 
+   - ... and many more
+- Additional packages
+- Przedstawiane danych przestrzennych
+- ....
 
----
-
-&lt;h2&gt;In a sense, it might be construed as an insult to a man's intelligence to show him a pie chart.&lt;/h2&gt; &lt;div style="text-align:right;"&gt; 
-&lt;h4&gt;K.G. Karsten (1923)&lt;/h4&gt;
-&lt;/div&gt;
-
-&lt;h2&gt;There is no data that can be displayed in a pie chart, that cannot be displayed BETTER in some other type of chart.&lt;/h2&gt; &lt;div style="text-align:right;"&gt; 
-&lt;h3&gt;John Tukey (?)&lt;/h3&gt;
-&lt;/div&gt;
-
-&lt;h2&gt;A table is nearly always better than a dumb pie chart.&lt;/h2&gt; &lt;div style="text-align:right;"&gt; 
-&lt;h3&gt;E. Tufte (2001)&lt;/h3&gt;
-&lt;/div&gt;
-
+&lt;!-- - Przekształanie danych na wykresach (np. *scale_x_log10*) --&gt;
+&lt;!-- - Multiwykresy (*facet_grid*, *facet_wrap*, itd.) --&gt;
+&lt;!-- - Modyfikacja wyglądu (motywów - *theme*) --&gt;
 
 ---
+## What's next?
 
-&lt;div style='text-align: center;'&gt;&lt;img height='400' src='fig/pie.png'/&gt; &lt;/div&gt;
-
-Odnośniki:
-
-- [Should You Ever Use a Pie Chart?](http://priceonomics.com/should-you-ever-use-a-pie-chart/)
-- [The 60 Silliest Pie Charts on the Internet](http://twentytwowords.com/ultimate-list-of-funny-pie-charts)
+- Interactive plots (plotly, dygraph, ...)
 
 --- 
 
@@ -333,6 +324,7 @@ Resources:
 
 - http://varianceexplained.org/RData/lessons/lesson2/
 - http://www.njtierney.com/Resources/
+- http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({

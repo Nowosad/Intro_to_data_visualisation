@@ -18,29 +18,12 @@ editor_options:
 options(htmltools.dir.version = FALSE)
 ```
 
-<!--
-
-# Wizualizacja statystyczna
-
-## Wykresy eksploracyjne
-
-- służą głównie dla ich twórcy
-- kluczową ich cechą jest możliwość iteracji
-
-## Wykresy komunikacyjne
-
-- służą głównie przekazaniu wiedzy
-- ich stworzenie wymaga czasu
-- ważny jest dobór podpisów, kolorów, etc.
-
--->
-
 ## Data visualisation in R
 
 - R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are the most popular ones
 
 ---
-## **ggplot2** - basic informations
+## **ggplot2** - basic information
 
 - **ggplot2** is an implementation of the grammar of graphics (["Grammar of Graphics"](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448) book written by Leland Wilkinson)
 - data frames are an input data (most of the times)
@@ -99,20 +82,10 @@ gapminder2007 <- subset(gapminder, year==2007)
 ---
 ## Histogram
 
-.pull-left[
-- stworzony przez Karla Pearsona
-- jest graficzną reprezentacją rozkładu <br> danych
-- wartości danych są łączone w przedziały (na osi poziomej) a na osi pionowej jest ukazana liczba punktów (obserwacji) w każdym przedziale
-- różny dobór przedziałów może dawać inną informację
-- w pakiecie ggplot2, przedział to domyślnie zakres/30
-]
-
-.pull-right[
 ```{r, tidy=FALSE, message=FALSE, out.width =  '400px'}
 ggplot(data=gapminder2007, aes(x=gdpPercap)) + 
         geom_histogram()
 ```
-]
 
 ---
 ## Histogram 
@@ -132,153 +105,158 @@ ggplot(data=gapminder2007, aes(x=gdpPercap)) +
 ]
 
 ---
-## Wykres słupkowy
+## Bar plot
+
+- There are two types of bar plots in **ggplot2**:
+    - `geom_bar()` makes the height of the bar proportional to the number of cases in each group
+    - `geom_col()` makes the height of the bars to represent values in the data
+
 ```{r, fig.align='center',fig.height=4}
 ggplot(data=gapminder2007, aes(x=continent)) + geom_bar()
 ```
 
-
 ---
-## Wykres liniowy 
+## Bar plot
+
+- There are two types of bar plots in **ggplot2**:
+    - `geom_bar()` makes the height of the bar proportional to the number of cases in each group
+    - `geom_col()` makes the height of the bars to represent values in the data
+
 ```{r, fig.align='center',fig.height=4, message=FALSE, warning=FALSE}
 library('dplyr')
+gapminder2007_2 <- gapminder2007 %>% group_by(continent) %>% summarise(number=n())
+ggplot(data=gapminder2007_2, aes(x=continent, y=number)) + geom_col()
+```
+
+---
+## Line plot
+```{r, fig.align='center',fig.height=4}
 gapminder2 <- gapminder %>% group_by(year) %>% summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE))
 ggplot(data=gapminder2, aes(x=year, y=mean.lifeExp)) + geom_line()
 ```
 
 ---
-## Wykres rozrzutu
+## Scatter plot
 
 ```{r, fig.align='center',fig.height=4}
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp)) + geom_point()
 ```
 
 ---
-## Wykres pudełkowy 
+## Box plot
 
-.pull-left[
-- obrazuje pięc podstawowych <br> statystyk opisowych oraz wartości odstające
-- pudełko to zakres międzykwantylowy
-- linie oznaczają najbardziej ekstremalne wartości, ale nie odstające. Górna to 1,5\*IQR ponad krawędź pudełka, dolna to 1,5\*IQR poniżej wartości dolnej krawędzi pudełka
-- linia środkowa to mediana
-]
-
-.pull-right[
-```{r,fig.height=4, fig.width=4}
+```{r, fig.height=4}
 ggplot(data=gapminder2007, aes(x=continent, y=lifeExp)) +
         geom_boxplot()
 ```
-]
 
 ---
-## Wykresy, a dane ilościowe i jakościowe
-
-- kolory
-- kształty
-- wielkości
-
----
-## Wykresy, a dane ilościowe (1)
+## Aesthetic attributes for quantitative variables (1)
 
 ```{r, fig.align='center',fig.height=4.5}
-ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) + geom_point()
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) +
+        geom_point()
 ```
 
 ---
-## Wykresy, a dane ilościowe (2)
+## Aesthetic attributes for quantitative variables (2)
 
 ```{r, fig.align='center',fig.height=4.5}
-ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, size=pop)) + geom_point()
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, size=pop)) +
+        geom_point()
 ```
 
 ---
-## Wykresy, a dane jakościowe (1)
+## Aesthetic attributes for qualitative variables (1)
 
 ```{r, fig.align='center',fig.height=4.5}
-ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=continent)) + geom_point()
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=continent)) +
+        geom_point()
 ```
 
 ---
-## Wykresy, a dane jakościowe (2)
+## Aesthetic attributes for qualitative variables (2)
 
 ```{r, fig.align='center',fig.height=4.5}
 ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, shape=continent)) + 
-        geom_point()  + scale_shape(solid = FALSE)
+        geom_point() + scale_shape(solid = FALSE)
 ```
 
 ---
-## Modyfikacja wykresów
+## Facets
+
+- TWO TYPES
+
+```{r, fig.align='center',fig.height=4.5}
+ggplot(data=gapminder2007, aes(x=lifeExp)) + 
+        geom_histogram() + 
+        facet_wrap(~continent)
+```
+
+---
+## Transformations
+
+
+
+---
+## Plot customizing
 
 ```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=4}
 p <- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram() + xlab('Oczekiwana dalsza długość trwania życia') + ylab(NULL)
-p <- p + ggtitle('Histogram') + labs(fill = "Kontynent")
+        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
+p <- p + ggtitle('Histogram') + labs(fill = "Continent: ")
 p
 ```
 
 ---
-## Zapisywanie wykresów
+## Plot customizing - themes
 
-```{r, tidy=FALSE, message=FALSE, eval=FALSE}
-p <- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) + 
-        geom_histogram() + xlab('Oczekiwana dalsza długość trwania życia') + ylab(NULL)
-p <- p + ggtitle('Histogram') + labs(fill = "Kontynent")
-```
-
-```{r, tidy=FALSE, message=FALSE, eval=FALSE}
-ggsave(filename = "Wykres.pdf", plot = p)
-```
-
-```{r, tidy=FALSE, message=FALSE, eval=FALSE}
-ggsave(filename = "Wykres.png", plot = p, dpi = 300)
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=4}
+p <- p + theme_bw()
+p
 ```
 
 ---
-## Inne
+## Saving plots
 
-- Kolejne typy wykresów (inne *geomy*)
-- Przekształanie danych na wykresach (np. *scale_x_log10*)
-- Multiwykresy (*facet_grid*, *facet_wrap*, itd.)
-- Modyfikacja wyglądu (motywów - *theme*)
-- Przedstawiane danych przestrzennych
-- Wiele innych...
+```{r, tidy=FALSE, message=FALSE, eval=FALSE}
+p <- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
+        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
+p <- p + ggtitle('Histogram') + labs(fill = "Continent: ") + theme_bw()
+```
+
+```{r, tidy=FALSE, message=FALSE, eval=FALSE}
+ggsave(filename = "Plot.pdf", plot = p)
+```
+
+```{r, tidy=FALSE, message=FALSE, eval=FALSE}
+ggsave(filename = "Plot.png", plot = p, dpi = 300)
+```
 
 ---
 
 <iframe src="http://shiny.stat.ubc.ca/r-graph-catalog/"></iframe>
 
 ---
-## Kilka porad
+## What's next?
 
-- nie redukuj!
-- nie stosuj wykresów kołowych
-- nie stosuj wykresów 3D
-- uważaj na osie
-- nie stosuj dwóch osi
+- Kolejne typy wykresów (inne *geomy*):
+   - 
+   - 
+   - 
+   - ... and many more
+- Additional packages
+- Przedstawiane danych przestrzennych
+- ....
 
----
-
-<h2>In a sense, it might be construed as an insult to a man's intelligence to show him a pie chart.</h2> <div style="text-align:right;"> 
-<h4>K.G. Karsten (1923)</h4>
-</div>
-
-<h2>There is no data that can be displayed in a pie chart, that cannot be displayed BETTER in some other type of chart.</h2> <div style="text-align:right;"> 
-<h3>John Tukey (?)</h3>
-</div>
-
-<h2>A table is nearly always better than a dumb pie chart.</h2> <div style="text-align:right;"> 
-<h3>E. Tufte (2001)</h3>
-</div>
-
+<!-- - Przekształanie danych na wykresach (np. *scale_x_log10*) -->
+<!-- - Multiwykresy (*facet_grid*, *facet_wrap*, itd.) -->
+<!-- - Modyfikacja wyglądu (motywów - *theme*) -->
 
 ---
+## What's next?
 
-<div style='text-align: center;'><img height='400' src='fig/pie.png'/> </div>
-
-Odnośniki:
-
-- [Should You Ever Use a Pie Chart?](http://priceonomics.com/should-you-ever-use-a-pie-chart/)
-- [The 60 Silliest Pie Charts on the Internet](http://twentytwowords.com/ultimate-list-of-funny-pie-charts)
+- Interactive plots (plotly, dygraph, ...)
 
 --- 
 
@@ -286,3 +264,4 @@ Resources:
 
 - http://varianceexplained.org/RData/lessons/lesson2/
 - http://www.njtierney.com/Resources/
+- http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
