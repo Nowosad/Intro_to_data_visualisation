@@ -1,8 +1,8 @@
 ---
 title: "Intro to data visualisation"
 subtitle: ""
-author: "Jakub Nowosad"
-date: ""
+author: "Jakub Nowosad <br>nowosad.jakub@gmail.com"
+date: "2017-04-26"
 output:
   xaringan::moon_reader:
     lib_dir: libs
