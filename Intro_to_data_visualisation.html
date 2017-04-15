@@ -20,7 +20,7 @@ class: center, middle, inverse, title-slide
 
 ## Data visualisation in R
 
-- R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are the most popular ones
+- R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are among the most popular ones
 
 ---
 ## **ggplot2** - basic information
@@ -96,7 +96,7 @@ ggplot(data=gapminder2007, aes(x=gdpPercap)) +
         geom_histogram()
 ```
 
-&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-7-1.png" width="400px" /&gt;
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 ## Histogram 
@@ -180,7 +180,7 @@ ggplot(data=gapminder2007, aes(x=continent, y=lifeExp)) +
         geom_boxplot()
 ```
 
-![](Intro_to_data_visualisation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 ## Aesthetic attributes for quantitative variables (1)
@@ -227,9 +227,32 @@ ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, shape=continent)) +
 &lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
+## Scales 
+
+
+```r
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=pop)) +
+        geom_point()+ 
+        scale_colour_gradientn(colours=rainbow(5))
+```
+
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+## Data transformations
+
+
+```r
+ggplot(data=gapminder2007, aes(x=gdpPercap, y=lifeExp, color=log10(pop))) +
+        geom_point()
+```
+
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+---
 ## Facets
 
-- TWO TYPES
+- Two functions, `facet_grid()` and `facet_wrap()` can be used to plot the subsets of data together
 
 
 ```r
@@ -238,29 +261,21 @@ ggplot(data=gapminder2007, aes(x=lifeExp)) +
         facet_wrap(~continent)
 ```
 
-```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-```
-
-&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-## Transformations
-
-
-
----
-## Plot customizing
+## Plot customizing - labs
 
 
 ```r
 p &lt;- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
-p &lt;- p + ggtitle('Histogram') + labs(fill = "Continent: ")
+        geom_histogram()
+p &lt;- p + labs(x='Life expectancy', y=NULL,
+              title='Histogram', fill='Continent: ')
 p
 ```
 
-&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 ## Plot customizing - themes
@@ -271,7 +286,7 @@ p &lt;- p + theme_bw()
 p
 ```
 
-&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Intro_to_data_visualisation_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 ## Saving plots
@@ -279,8 +294,10 @@ p
 
 ```r
 p &lt;- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram() + xlab('Life expectancy') + ylab(NULL) 
-p &lt;- p + ggtitle('Histogram') + labs(fill = "Continent: ") + theme_bw()
+        geom_histogram() +
+        labs(x='Life expectancy', y=NULL,
+              title='Histogram', fill='Continent: ') +
+        theme_bw()
 ```
 
 
@@ -294,29 +311,24 @@ ggsave(filename = "Plot.png", plot = p, dpi = 300)
 ```
 
 ---
+## That's not all (folks)
 
-&lt;iframe src="http://shiny.stat.ubc.ca/r-graph-catalog/"&gt;&lt;/iframe&gt;
-
----
-## What's next?
-
-- Kolejne typy wykresów (inne *geomy*):
-   - 
-   - 
-   - 
-   - ... and many more
-- Additional packages
-- Przedstawiane danych przestrzennych
-- ....
-
-&lt;!-- - Przekształanie danych na wykresach (np. *scale_x_log10*) --&gt;
-&lt;!-- - Multiwykresy (*facet_grid*, *facet_wrap*, itd.) --&gt;
-&lt;!-- - Modyfikacja wyglądu (motywów - *theme*) --&gt;
+- More geoms:
+   - `geom_density()`
+   - `geom_jitter()`
+   - `geom_text()`
+   - ... 
+- Axes and legends customizing
+- Additional packages (**ggplot2** extensions) - http://www.ggplot2-exts.org/
+- Spatial data visualisation
+- ... and many more
 
 ---
 ## What's next?
 
 - Interactive plots (plotly, dygraph, ...)
+
+&lt;!--https://github.com/bhaskarvk/widgetframe--&gt;
 
 --- 
 
@@ -325,6 +337,9 @@ Resources:
 - http://varianceexplained.org/RData/lessons/lesson2/
 - http://www.njtierney.com/Resources/
 - http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
+- http://www.cookbook-r.com/Graphs/
+- http://shiny.stat.ubc.ca/r-graph-catalog/
+- https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
@@ -332,7 +347,7 @@ Resources:
 "highlightLines": true,
 "countIncrementalSlides": false
 });
-if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});</script>
+if (window.HTMLWidgets) slideshow.on('showSlide', function (slide) {setTimeout(function() {window.dispatchEvent(new Event('resize'));}, 100)});</script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
