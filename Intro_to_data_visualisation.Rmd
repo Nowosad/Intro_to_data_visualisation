@@ -22,6 +22,22 @@ options(htmltools.dir.version = FALSE, scipen = 99*99)
 
 - R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are among the most popular ones
 
+```{r, fig.width=3.25, fig.height=4, echo=FALSE}
+library(tidyverse)
+# library(grid)
+# library(gridBase)
+# library(gridExtra)
+library(lattice)
+
+x <- floor(runif(100, 1, 1000))
+y <- floor(runif(100, 1, 500))
+df <- data.frame(x=x, y=y)
+
+plot(x, y)
+xyplot(y~x, data=df)
+ggplot(df, aes(x, y)) + geom_point()
+```
+
 ---
 ## **ggplot2** - basic information
 
@@ -107,9 +123,9 @@ ggplot(data=gapminder2007, aes(x=gdpPercap)) +
 ---
 ## Bar plot
 
-- There are two types of bar plots in **ggplot2**:
-    - `geom_bar()` makes the height of the bar proportional to the number of cases in each group
-    - `geom_col()` makes the height of the bars to represent values in the data
+There are two types of bar plots in **ggplot2**:
+- `geom_bar()` makes the height of the bar proportional to the number of cases in each group
+- `geom_col()` makes the height of the bars to represent values in the data
 
 ```{r, fig.align='center',fig.height=4}
 ggplot(data=gapminder2007, aes(x=continent)) + geom_bar()
@@ -118,9 +134,9 @@ ggplot(data=gapminder2007, aes(x=continent)) + geom_bar()
 ---
 ## Bar plot
 
-- There are two types of bar plots in **ggplot2**:
-    - `geom_bar()` makes the height of the bar proportional to the number of cases in each group
-    - `geom_col()` makes the height of the bars to represent values in the data
+There are two types of bar plots in **ggplot2**:
+- `geom_bar()` makes the height of the bar proportional to the number of cases in each group
+- `geom_col()` makes the height of the bars to represent values in the data
 
 ```{r, fig.align='center',fig.height=4, message=FALSE, warning=FALSE}
 library('dplyr')
@@ -214,17 +230,17 @@ ggplot(data=gapminder2007, aes(x=lifeExp)) +
 ## Plot customizing - labs
 
 ```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=5}
-p <- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram()
+p <- ggplot(data=gapminder2007, aes(x=lifeExp, y=gdpPercap, color=continent)) +
+        geom_point()
 p <- p + labs(x='Life expectancy', y=NULL,
-              title='Histogram', fill='Continent: ')
+              title='GDP vs Life expectancy', color='Continent: ')
 p
 ```
 
 ---
 ## Plot customizing - themes
 
-```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=4}
+```{r, tidy=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=6}
 p <- p + theme_bw()
 p
 ```
@@ -232,12 +248,12 @@ p
 ---
 ## Saving plots
 
-```{r, tidy=FALSE, message=FALSE, eval=FALSE}
-p <- ggplot(data=gapminder2007, aes(x=lifeExp, fill=continent)) +
-        geom_histogram() +
-        labs(x='Life expectancy', y=NULL,
-              title='Histogram', fill='Continent: ') +
+```{r, tidy=FALSE, message=FALSE, fig.align='center', fig.height=3}
+p <- ggplot(data=gapminder2007, aes(x=lifeExp, y=gdpPercap, color=continent)) +
+        geom_point() +
+        labs(x='Life expectancy', y=NULL, title='GDP vs Life expectancy', color='Continent: ') +
         theme_bw()
+p
 ```
 
 ```{r, tidy=FALSE, message=FALSE, eval=FALSE}
@@ -262,19 +278,15 @@ ggsave(filename = "Plot.png", plot = p, dpi = 300)
 - ... and many more
 
 ---
-## What's next?
+## Resources:
 
-- Interactive plots (plotly, dygraph, ...)
-
-<!--https://github.com/bhaskarvk/widgetframe-->
-
---- 
-
-Resources:
-
-- http://varianceexplained.org/RData/lessons/lesson2/
-- http://www.njtierney.com/Resources/
-- http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/
-- http://www.cookbook-r.com/Graphs/
-- http://shiny.stat.ubc.ca/r-graph-catalog/
-- https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
+- [An introduction to ggplot2](https://rawgit.com/eco-data-science/VisualizingData/master/ggplot2_intro.html)
+- [Cookbook for R >> Graphs](http://www.cookbook-r.com/Graphs/)
+- [Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/05/ggplot2-cheatsheet.pdf)
+- [Beautiful plotting in R: A ggplot2 cheatsheet](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/)
+- [R Graph Catalog](http://shiny.stat.ubc.ca/r-graph-catalog/)
+- [Great examples of ggplot2 plots](https://rud.is/b/category/ggplot)
+- [Interactive visualizations with R - a minireview](http://ouzor.github.io/blog/2014/11/21/interactive-visualizations.html)
+- [plotly for R](https://cpsievert.github.io/plotly_book/)
+- [dygraphs for R](https://rstudio.github.io/dygraphs/)
+- [Shiny by RStudio](http://shiny.rstudio.com/)
