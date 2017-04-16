@@ -22,7 +22,7 @@ options(htmltools.dir.version = FALSE, scipen = 99*99)
 
 - R has several systems for making graphics - **base R**, the **lattice** package, and the **ggplot2** package are among the most popular ones
 
-```{r, fig.width=3.25, fig.height=4, echo=FALSE}
+```{r, fig.width=3.25, fig.height=4, echo=FALSE, message=FALSE}
 library(tidyverse)
 # library(grid)
 # library(gridBase)
@@ -280,12 +280,13 @@ ggsave(filename = "Plot.png", plot = p, dpi = 300)
 ---
 ## Resources:
 
-- [ggplot2]http://ggplot2.tidyverse.org/
+- [ggplot2](http://ggplot2.tidyverse.org/)
 - [An introduction to ggplot2](https://rawgit.com/eco-data-science/VisualizingData/master/ggplot2_intro.html)
 - [Cookbook for R >> Graphs](http://www.cookbook-r.com/Graphs/)
 - [Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/05/ggplot2-cheatsheet.pdf)
 - [Beautiful plotting in R: A ggplot2 cheatsheet](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/)
 - [R Graph Catalog](http://shiny.stat.ubc.ca/r-graph-catalog/)
+- [A Compendium of Clean Graphs in R](http://shinyapps.org/apps/RGraphCompendium/index.php)
 - [Great examples of ggplot2 plots](https://rud.is/b/category/ggplot)
 - [Interactive visualizations with R - a minireview](http://ouzor.github.io/blog/2014/11/21/interactive-visualizations.html)
 - [plotly for R](https://cpsievert.github.io/plotly_book/)
