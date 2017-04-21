@@ -6,6 +6,9 @@
     <meta name="author" content="Jakub Nowosad  nowosad.jakub@gmail.com" />
     <meta name="date" content="2017-04-26" />
     <link href="libs/remark-css/example.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/pymjs/pym.v1.min.js"></script>
+    <script src="libs/widgetframe-binding/widgetframe.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -30,7 +33,7 @@ class: center, middle, inverse, title-slide
 ## **ggplot2** - basic information
 
 - **ggplot2** is an implementation of the grammar of graphics (["Grammar of Graphics"](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448) book written by Leland Wilkinson)
-- data frames are an input data (most of the times)
+- data frames are (most of the times) an input data 
 - the **ggplot2** package has two functions for plot creation - `qplot()` and `ggplot()`
 - **ggplot2** documentation is available at http://docs.ggplot2.org
 
@@ -60,15 +63,13 @@ ggplot(data = df, aes(x = A, y = B)) + geom_point()
 
 - `geom` - type of a plot ("histogram", "boxplot", "point", etc.)
 - aesthetics (`aes`) - visual properties of geoms, such as color, size, shape, ...
-- faceting (`facet`) - panels with a different subset of the data 
+- faceting (`facet`) - panels with different subsets of the data 
 
 ---
 ## Dataset
 
 
 ```r
-# install.packages('devtools')
-# devtools::install_github("jennybc/gapminder")
 install.packages('gapminder')
 library('gapminder')
 ```
@@ -330,20 +331,62 @@ ggsave(filename = "Plot.png", plot = p, dpi = 300)
 - ... and many more
 
 ---
+## Interactive plots
+
+- R has many interfaces to interactive visualization librares, such as `plotly`, `dygraphs`, `rCharts`, `googleVis`, etc.
+- What's even better is that R allows for building interactive web applications using the `shiny` package
+
+---
+## `plotly`
+
+
+
+
+```r
+# devtools::install_github("ropensci/plotly")
+library('plotly')
+ggplotly(p=p)
+```
+
+<div id="htmlwidget-80a13a55411ddccf5088" style="width:100%;height:300px;" class="widgetframe html-widget"></div>
+<!-- widgetframe widget-href="widget_unnamed-chunk-30.html" -->
+<!-- widgetframe libs-href="widget_libs" -->
+<script type="application/json" data-for="htmlwidget-80a13a55411ddccf5088">{"x":{"url":"widget_unnamed-chunk-30.html","options":{"xdomain":"*","allowfullscreen":false}},"evals":[],"jsHooks":[]}</script>
+
+---
+## `dygraphs`
+
+
+```r
+library('dygraphs')
+library('tidyr')
+gapminder3 &lt;- gapminder %&gt;%
+        group_by(year, continent) %&gt;%
+        summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE)) %&gt;% 
+        spread(continent, mean.lifeExp)
+dygraph(gapminder3) %&gt;% dyRangeSelector()
+```
+
+<div id="htmlwidget-c005c9bc3a297cf128d9" style="width:95%;height:300px;" class="widgetframe html-widget"></div>
+<!-- widgetframe widget-href="widget_unnamed-chunk-32.html" -->
+<!-- widgetframe libs-href="widget_libs" -->
+<script type="application/json" data-for="htmlwidget-c005c9bc3a297cf128d9">{"x":{"url":"widget_unnamed-chunk-32.html","options":{"xdomain":"*","allowfullscreen":false}},"evals":[],"jsHooks":[]}</script>
+
+---
 ## Resources:
 
-- [ggplot2](http://ggplot2.tidyverse.org/)
-- [An introduction to ggplot2](https://rawgit.com/eco-data-science/VisualizingData/master/ggplot2_intro.html)
-- [Cookbook for R &gt;&gt; Graphs](http://www.cookbook-r.com/Graphs/)
-- [Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/05/ggplot2-cheatsheet.pdf)
-- [Beautiful plotting in R: A ggplot2 cheatsheet](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/)
-- [R Graph Catalog](http://shiny.stat.ubc.ca/r-graph-catalog/)
-- [A Compendium of Clean Graphs in R](http://shinyapps.org/apps/RGraphCompendium/index.php)
-- [Great examples of ggplot2 plots](https://rud.is/b/category/ggplot)
-- [Interactive visualizations with R - a minireview](http://ouzor.github.io/blog/2014/11/21/interactive-visualizations.html)
-- [plotly for R](https://cpsievert.github.io/plotly_book/)
-- [dygraphs for R](https://rstudio.github.io/dygraphs/)
-- [Shiny by RStudio](http://shiny.rstudio.com/)
+- [ggplot2](http://ggplot2.tidyverse.org/) - an official website of the `ggplot2` package
+- [An introduction to ggplot2](https://rawgit.com/eco-data-science/VisualizingData/master/ggplot2_intro.html) - a very good intorduction to `ggplot2`; more information about how to deal with colors
+- [Cookbook for R &gt;&gt; Graphs](http://www.cookbook-r.com/Graphs/) - a clear introduction to the most useful functions of `ggplot2`
+- [Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/05/ggplot2-cheatsheet.pdf) - an official `ggplot2` cheatsheet
+- [Beautiful plotting in R: A ggplot2 cheatsheet](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/) - a ton of examples how to customize `ggplot2` 
+- [R Graph Catalog](http://shiny.stat.ubc.ca/r-graph-catalog/) - a catalog of good and bad plots
+- [A Compendium of Clean Graphs in R](http://shinyapps.org/apps/RGraphCompendium/index.php) - examples of informative plots
+- [Great examples of ggplot2 plots](https://rud.is/b/category/ggplot) - a lot of them...
+- [Interactive visualizations with R - a minireview](http://ouzor.github.io/blog/2014/11/21/interactive-visualizations.html) - an overview of R interactive capabilities
+- [plotly for R](https://cpsievert.github.io/plotly_book/) - an open online book about the `plotly` package
+- [dygraphs for R](https://rstudio.github.io/dygraphs/) - an official documentation of the `dygraphs` package
+- [Shiny by RStudio](http://shiny.rstudio.com/) - - an official documentation of the `shiny` package
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
