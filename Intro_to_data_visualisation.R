@@ -1,21 +1,3 @@
-## ----setup, include=FALSE------------------------------------------------
-options(htmltools.dir.version = FALSE, scipen = 99*99)
-
-## ---- fig.width=3.25, fig.height=4, echo=FALSE, message=FALSE------------
-library(tidyverse)
-# library(grid)
-# library(gridBase)
-# library(gridExtra)
-library(lattice)
-
-x <- floor(runif(100, 1, 1000))
-y <- floor(runif(100, 1, 500))
-df <- data.frame(x=x, y=y)
-
-plot(x, y, main ='base R')
-xyplot(y~x, data=df, main='the lattice package')
-ggplot(df, aes(x, y)) + geom_point() + ggtitle('the ggplot2 package')
-
 ## ---- eval=FALSE---------------------------------------------------------
 ## install.packages("ggplot2")
 
@@ -121,19 +103,12 @@ p
 ## ---- tidy=FALSE, message=FALSE, eval=FALSE------------------------------
 ## ggsave(filename = "Plot.png", plot = p, dpi = 300)
 
-## ---- echo=FALSE, eval=FALSE---------------------------------------------
-## devtools::install_github('bhaskarvk/widgetframe')
-## library(widgetframe)
 
 ## ---- message=FALSE, fig.height=4, eval=FALSE----------------------------
 ## # devtools::install_github("ropensci/plotly")
 ## library('plotly')
 ## ggplotly(p=p)
 
-## ---- echo=FALSE, message=FALSE------------------------------------------
-library(widgetframe)
-library('plotly')
-frameWidget(ggplotly(p=p), height = '400')
 
 ## ---- message=FALSE, eval=FALSE------------------------------------------
 ## library('dygraphs')
@@ -144,13 +119,4 @@ frameWidget(ggplotly(p=p), height = '400')
 ##         spread(continent, mean.lifeExp)
 ## dygraph(gapminder3) %>% dyRangeSelector()
 
-## ---- message=FALSE, echo=FALSE------------------------------------------
-library('dygraphs')
-library('tidyr')
-gapminder3 <- gapminder %>%
-        group_by(year, continent) %>%
-        summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE)) %>% 
-        spread(continent, mean.lifeExp)
-d <- dygraph(gapminder3) %>% dyRangeSelector()
-frameWidget(d, height = 300, width = '95%')
 
