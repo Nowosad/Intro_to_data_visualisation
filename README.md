@@ -2,7 +2,7 @@
 
 ## Slides
 
-- [Slides are available here](https://cdn.rawgit.com/Nowosad/Intro_to_data_visualisation/master/Intro_to_data_visualisation.html)
+- [Slides are available here](https://cdn.rawgit.com/Nowosad/Intro_to_data_visualisation/a8bf4dcf/Intro_to_data_visualisation.html)
 - [The code is available here](https://raw.githubusercontent.com/Nowosad/Intro_to_data_visualisation/master/Intro_to_data_visualisation.R)
 
 ## Prerequisites
