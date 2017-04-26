@@ -279,7 +279,7 @@ ggsave(filename = "Plot.png", plot = p, dpi = 300)
 ---
 ## Interactive plots
 
-- R has many interfaces to interactive visualization librares, such as `plotly`, `dygraphs`, `rCharts`, `googleVis`, etc.
+- R has many interfaces to interactive visualization libraries, such as `plotly`, `dygraphs`, `rCharts`, `googleVis`, etc.
 - What's even better is that R allows for building interactive web applications using the `shiny` package
 
 ---
@@ -330,7 +330,7 @@ frameWidget(d, height = 300, width = '95%')
 ## Resources:
 
 - [ggplot2](http://ggplot2.tidyverse.org/) - an official website of the `ggplot2` package
-- [An introduction to ggplot2](https://rawgit.com/eco-data-science/VisualizingData/master/ggplot2_intro.html) - a very good intorduction to `ggplot2`; more information about how to deal with colors
+- [An introduction to ggplot2](https://rawgit.com/eco-data-science/VisualizingData/master/ggplot2_intro.html) - a very good introduction to `ggplot2`; more information about how to deal with colors
 - [Cookbook for R >> Graphs](http://www.cookbook-r.com/Graphs/) - a clear introduction to the most useful functions of `ggplot2`
 - [Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/05/ggplot2-cheatsheet.pdf) - an official `ggplot2` cheatsheet
 - [Beautiful plotting in R: A ggplot2 cheatsheet](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/) - a ton of examples how to customize `ggplot2` 
@@ -340,4 +340,4 @@ frameWidget(d, height = 300, width = '95%')
 - [Interactive visualizations with R - a minireview](http://ouzor.github.io/blog/2014/11/21/interactive-visualizations.html) - an overview of R interactive capabilities
 - [plotly for R](https://cpsievert.github.io/plotly_book/) - an open online book about the `plotly` package
 - [dygraphs for R](https://rstudio.github.io/dygraphs/) - an official documentation of the `dygraphs` package
-- [Shiny by RStudio](http://shiny.rstudio.com/) - - an official documentation of the `shiny` package
+- [Shiny by RStudio](http://shiny.rstudio.com/) - an official documentation of the `shiny` package
