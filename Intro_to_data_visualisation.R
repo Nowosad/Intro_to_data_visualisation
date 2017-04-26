@@ -10,7 +10,7 @@ ggplot(data = df, aes(x = A, y = B)) + geom_point()
 
 ## ---- eval=FALSE---------------------------------------------------------
 ## install.packages('gapminder')
-## library('gapminder')
+library('gapminder')
 
 ## ------------------------------------------------------------------------
 gapminder <- readRDS('data/gapminder.rds')
@@ -103,20 +103,17 @@ p
 ## ---- tidy=FALSE, message=FALSE, eval=FALSE------------------------------
 ## ggsave(filename = "Plot.png", plot = p, dpi = 300)
 
-
 ## ---- message=FALSE, fig.height=4, eval=FALSE----------------------------
 ## # devtools::install_github("ropensci/plotly")
-## library('plotly')
-## ggplotly(p=p)
-
+library('plotly')
+ggplotly(p=p)
 
 ## ---- message=FALSE, eval=FALSE------------------------------------------
-## library('dygraphs')
-## library('tidyr')
-## gapminder3 <- gapminder %>%
-##         group_by(year, continent) %>%
-##         summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE)) %>%
-##         spread(continent, mean.lifeExp)
-## dygraph(gapminder3) %>% dyRangeSelector()
-
+library('dygraphs')
+library('tidyr')
+gapminder3 <- gapminder %>%
+        group_by(year, continent) %>%
+        summarise(mean.lifeExp=mean(lifeExp, na.rm=TRUE)) %>%
+        spread(continent, mean.lifeExp)
+dygraph(gapminder3) %>% dyRangeSelector()
 
