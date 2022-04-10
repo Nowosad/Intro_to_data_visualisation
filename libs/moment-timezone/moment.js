@@ -10,7 +10,7 @@
     ************************************/
 
     var moment,
-        VERSION = '2.8.4',
+        VERSION = '2.29.2',
         // the global-scope this is NOT the global object in Node.js
         globalScope = typeof global !== 'undefined' ? global : this,
         oldGlobalMoment,
