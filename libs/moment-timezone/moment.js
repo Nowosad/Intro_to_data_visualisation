@@ -1,5 +1,5 @@
 //! moment.js
-//! version : 2.8.4
+//! version : 2.29.2
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
